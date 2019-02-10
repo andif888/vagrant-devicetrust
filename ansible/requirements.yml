@@ -1,0 +1,12 @@
+---
+- src: https://github.com/andif888/ansible-role-win-disable-firewall
+- src: https://github.com/andif888/ansible-role-win-disable-nic-register-dns
+- src: https://github.com/andif888/ansible-role-win-disable-password-complexity
+- src: https://github.com/andif888/ansible-role-win-disable-windows-updates
+- src: https://github.com/andif888/ansible-role-win-domain
+- src: https://github.com/andif888/ansible-role-win-domain-member
+- src: https://github.com/andif888/ansible-role-win-domain-ou
+- src: https://github.com/andif888/ansible-role-win-hostname
+- src: https://github.com/andif888/ansible-role-win-language
+- src: https://github.com/andif888/ansible-role-win-rdsh
+- src: https://github.com/andif888/ansible-role-win-search-service

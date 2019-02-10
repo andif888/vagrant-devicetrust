@@ -1,0 +1,19 @@
+---
+nic_register_dns_disabled: Ethernet
+win_user_language: de-DE
+dns_domain_name: dt.local
+domain_netbios_name: DT
+domain_admin_user: administrator@dt.local
+domain_admin_password: vagrant
+dns_client_configure: True
+dns_client_adapter: Ethernet 2
+dns_client_dns_server_ip: 192.168.123.2
+policy_definitions_dir: C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions
+
+
+install_rds_licensing: true
+rds_licensing_mode: 4
+rds_licening_server_name: localhost
+remotedesktopuser_group_name: Remote Desktop Users
+members_of_remotedesktopuser:
+  - '{{ domain_netbios_name }}\Domain Users'

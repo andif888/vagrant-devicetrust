@@ -1,0 +1,71 @@
+---
+- hosts: windows-dc
+
+  vars_files:
+    - vars/generic.yml
+
+  roles:
+    # - { role: ansible-role-win-disable-firewall }
+    - { role: ansible-role-win-disable-windows-updates }
+    - { role: ansible-role-win-disable-nic-register-dns }
+    - { role: ansible-role-win-language }
+    - { role: ansible-role-win-hostname }
+    - { role: ansible-role-win-disable-password-complexity }
+    - { role: ansible-role-win-domain }
+
+  tasks:
+    - name: Check DNS Forwarders
+      win_shell: |
+        $forwarders = Get-DnsServerForwarder
+        if (($forwarders).IPAddress.Length -gt 0)
+        {
+          if (($forwarders).IPAddress[0].IPAddressToString -ne "8.8.8.8")
+          {
+            Write-Host "false"
+          }
+          else
+          {
+            Write-Host "true"
+          }
+        }
+        else 
+        {
+          Write-Host "true"
+        }
+      register: dnsforwarder_ok
+      changed_when: false
+    
+    - name: Remove DNS Forwarders
+      win_shell: |
+        Remove-DnsServerForwarder -IPAddress (Get-DnsServerForwarder).IPAddress -Passthru -Confirm:$false -Force
+      when: dnsforwarder_ok.stdout is not match("true")
+      
+    - name: DC - Install xDnsServer Powershell module
+      win_psmodule:
+        name: xDnsServer
+        repository: PSGallery
+        state: present
+
+    - name: DC - DNS Service Forwarders
+      win_dsc:
+        resource_name: xDnsServerSetting
+        Name: DNSServerProperties
+        NoRecursion: false
+        Forwarders:
+          - "8.8.8.8"
+          - "8.8.4.4"
+      notify: restart DNS
+
+    - name: DC - DNS Service ListenAddresses
+      win_regedit:
+        path: HKLM:\SYSTEM\CurrentControlSet\Services\DNS\Parameters
+        name: ListenAddresses
+        data: '[''{{ dns_client_dns_server_ip }}'']'
+        type: multistring
+      notify: restart DNS
+
+  handlers:
+    - name: restart DNS
+      win_service:
+        name: DNS
+        state: restarted

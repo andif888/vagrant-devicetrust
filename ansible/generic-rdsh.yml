@@ -1,0 +1,9 @@
+---
+- hosts: windows-rdsh
+
+  vars_files:
+    - vars/generic.yml
+
+  roles:
+    - { role: ansible-role-win-rdsh }
+

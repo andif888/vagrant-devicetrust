@@ -1,0 +1,18 @@
+
+[windows]
+192.168.123.2
+192.168.123.3
+192.168.123.4
+
+[windows-members]
+192.168.123.3 hostname=RDSH
+192.168.123.4 hostname=W10
+
+[windows-dc]
+192.168.123.2 hostname=DC
+
+[windows-rdsh]
+192.168.123.3
+
+[windows-client]
+192.168.123.4

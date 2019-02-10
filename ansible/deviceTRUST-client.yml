@@ -1,0 +1,29 @@
+---
+- hosts: windows-client
+
+
+  vars_files:
+    - vars/deviceTRUST.yml
+
+  tasks:
+    - name: Create Temp Folder
+      win_file:
+        path: '{{ devicetrust_exctract_dir }}'
+        state: directory
+
+    - name: Copy deviceTRUST Client
+      win_copy:
+        src: '../deviceTRUST/{{ devicetrust_client_install_file }}'
+        dest: '{{ devicetrust_exctract_dir }}\'
+
+    - name: Install deviceTRUST Client
+      win_package:
+        path: '{{ devicetrust_exctract_dir }}\{{  devicetrust_client_install_file }}'
+        product_id: '{{ devicetrust_client_product_id }}'
+        #creates_path: C:\Program Files\deviceTRUST\Client\Bin
+        state: present
+      register: deviceTRUST_Client_install
+
+    - name: reboot if deviceTRUST Client requires it
+      win_reboot:
+      when: deviceTRUST_Client_install.reboot_required
