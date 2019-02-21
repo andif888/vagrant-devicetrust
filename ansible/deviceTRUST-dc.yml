@@ -24,6 +24,12 @@
         state: present
       register: deviceTRUST_Console_install
 
+    - name: Copy Policy Definitions to central location
+      win_robocopy:
+        src: C:\Windows\PolicyDefinitions
+        dest: C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions
+        flags: /e /copyall
+
     - name: reboot if deviceTRUST Console requires it
       win_reboot:
       when: deviceTRUST_Console_install.reboot_required
