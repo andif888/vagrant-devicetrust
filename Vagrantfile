@@ -131,18 +131,19 @@ Vagrant.configure("2") do |config|
         vb.customize ["modifyvm", :id, "--cpus", 2]
       end
 
-      ctrl.vm.provision "copy_scripts", type: "file", source: "./scripts", destination: "/tmp/scripts"
+      ctrl.vm.provision "copy_scripts", type: "file", source: "./scripts", destination: "/tmp/scripts"      
 
       ctrl.vm.provision "shell_prepare_controller", type: "shell", inline: <<-SHELL
         /tmp/scripts/prepare_controller.sh
+        rsync -a /vagrant/ansible/ /tmp/ansible/
       SHELL
 
       ctrl.vm.provision "shell_download_ansible_roles", type: "shell", inline: <<-SHELL
-        ansible-galaxy install -v -r /vagrant/ansible/requirements.yml -p /vagrant/ansible/roles/
+        ansible-galaxy install -v -r /tmp/ansible/requirements.yml -p /tmp/ansible/roles/
       SHELL
 
       ctrl.vm.provision "shell_run_ansible_playbook", type: "shell", inline: <<-SHELL
-        cd /vagrant/ansible
+        cd /tmp/ansible
         ansible-playbook site.yml --inventory-file=inventory
       SHELL
 

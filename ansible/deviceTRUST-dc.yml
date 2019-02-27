@@ -16,6 +16,54 @@
         src: '../deviceTRUST/{{ devicetrust_console_install_file }}'
         dest: '{{ devicetrust_exctract_dir }}\'
 
+    - name: Copy deviceTRUST Policy Definitions
+      win_copy:
+        src: '../deviceTRUST/{{ devicetrust_policydefinitions_zip }}'
+        dest: '{{ devicetrust_exctract_dir }}\'
+
+    - name: Unzip GPO Templates
+      win_unzip:
+        src: '{{ devicetrust_exctract_dir }}\{{ devicetrust_policydefinitions_zip }}'
+        dest: '{{ devicetrust_exctract_dir }}\policydefinitions'
+        #creates: '{{ devicetrust_exctract_dir }}\policydefinitions'
+
+    - name: Copy ADMX to PolicyDefinitions
+      win_copy:
+        src: '{{ devicetrust_exctract_dir }}\policydefinitions\deviceTRUST.admx'
+        dest: '{{ policy_definitions_dir }}\'
+        remote_src: yes
+
+    - name: PolicyDefinitions en-US exists
+      win_stat:
+        path: '{{ policy_definitions_dir }}\en-US'
+      register: policy_definitions_en
+
+#    - debug:
+#        var: policy_definitions_en
+
+    - name: PolicyDefinitions de-DE exists
+      win_stat:
+        path: '{{ policy_definitions_dir }}\de-DE'
+      register: policy_definitions_de
+
+#    - debug:
+#        var: policy_definitions_de
+
+    - name: Copy ADML to PolicyDefinitions en
+      win_copy:
+        src: '{{ devicetrust_exctract_dir }}\policydefinitions\en\deviceTRUST.adml'
+        dest: '{{ policy_definitions_dir }}\en-US\'
+        remote_src: yes
+      when: policy_definitions_en.stat.exists
+
+    - name: Copy ADML to PolicyDefinitions de
+      win_copy:
+        src: '{{ devicetrust_exctract_dir }}\policydefinitions\de\deviceTRUST.adml'
+        dest: '{{ policy_definitions_dir }}\de-DE\'
+        remote_src: yes
+      when: policy_definitions_de.stat.exists
+
+
     - name: Install deviceTRUST Console
       win_package:
         path: '{{ devicetrust_exctract_dir }}\{{ devicetrust_console_install_file }}'
@@ -23,12 +71,6 @@
         #creates_path: C:\Program Files\deviceTRUST\Console\Bin
         state: present
       register: deviceTRUST_Console_install
-
-    - name: Copy Policy Definitions to central location
-      win_robocopy:
-        src: C:\Windows\PolicyDefinitions
-        dest: C:\Windows\SYSVOL\domain\Policies\PolicyDefinitions
-        flags: /e /copyall
 
     - name: reboot if deviceTRUST Console requires it
       win_reboot:

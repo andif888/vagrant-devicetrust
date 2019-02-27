@@ -1,0 +1,32 @@
+---
+- hosts: windows-dc
+
+  vars_files:
+    - vars/generic.yml
+    - vars/deviceTRUST.yml
+
+  tasks:
+
+    - name: Download deviceTRUST Training files
+      win_get_url:
+        url: https://minio.prianto.com/devicetrust/2019-02-28_dT_Certified_Architect_Training.zip
+        dest: C:\Windows\Temp\2019-02-28_dT_Certified_Architect_Training.zip
+
+    - name: Create deviceTRUST Training Folder
+      win_file:
+        path: C:\dt_training
+        state: directory
+
+    - name: Unzip deviceTRUST Training files
+      win_unzip:
+        src: C:\Windows\Temp\2019-02-28_dT_Certified_Architect_Training.zip
+        dest: C:\dt_training
+        delete_archive: yes
+
+    - name: Create deviceTRUST Training Share
+      win_share:
+        name: dt_training
+        description: dt_training
+        path: C:\dt_training
+        list: yes
+        full: Everyone

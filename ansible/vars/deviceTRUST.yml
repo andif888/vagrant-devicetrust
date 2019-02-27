@@ -26,12 +26,14 @@ devicetrust_exctract_dir: C:\Temp
 # devicetrust_client_install_file: dtclient-x64-release-19.1.15.0.msi
 # devicetrust_client_product_id: {AD204F82-E7A6-4523-A3EC-153D5D7F6E17}
 
-# 19.1.100
-devicetrust_console_install_file: dtconsole-x64-release-19.1.100.0.msi
-devicetrust_console_product_id: {88B3ED7D-607B-4B31-B174-533E1D64BDA0}
+# 19.1.106
+devicetrust_policydefinitions_zip: dtpolicydefinitions-19.1.106.0.zip
 
-devicetrust_host_install_file: dthost-x64-release-19.1.100.0.msi
-devicetrust_host_product_id: {7814D95D-F7EF-437B-96B2-95E244FADE8B}
+devicetrust_console_install_file: dtconsole-x64-release-19.1.106.0.msi
+devicetrust_console_product_id: {5FBEA6C9-ED18-4B74-BC67-1F6A92A42B01}
 
-devicetrust_client_install_file: dtclient-x64-release-19.1.100.0.msi
-devicetrust_client_product_id: {94A01702-9357-4B03-826E-C9F4BEE84F35}
+devicetrust_host_install_file: dthost-x64-release-19.1.106.0.msi
+devicetrust_host_product_id: {44DF1149-3520-483E-A400-FFD8FB5F4D4A}
+
+devicetrust_client_install_file: dtclient-x64-release-19.1.106.0.msi
+devicetrust_client_product_id: {0815EDFD-26CB-4C73-AD4D-65496B55E230}
