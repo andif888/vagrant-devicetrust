@@ -1,5 +1,6 @@
 ---
 nic_register_dns_disabled: Ethernet
+nic_change_interface_metric: 50
 win_user_language: de-DE
 dns_domain_name: dt.local
 domain_netbios_name: DT
