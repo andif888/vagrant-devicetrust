@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config|
     #
 
     config.vm.define "dc" do |dc|
-      dc.vm.box = "gusztavvargadr/w16s"
+      dc.vm.box = "gusztavvargadr/windows-server"
       dc.vm.communicator = "winrm"
 
       # Admin user name and password
@@ -50,7 +50,7 @@ Vagrant.configure("2") do |config|
     #
 
     config.vm.define "rdsh" do |rdsh|
-      rdsh.vm.box = "gusztavvargadr/w16s"
+      rdsh.vm.box = "gusztavvargadr/windows-server"
       rdsh.vm.communicator = "winrm"
 
       # Admin user name and password
@@ -81,8 +81,7 @@ Vagrant.configure("2") do |config|
     #
 
     config.vm.define "w10" do |w10|
-      w10.vm.box = "gusztavvargadr/w10e"
-      w10.vm.box_version = "1811.0.0"
+      w10.vm.box = "gusztavvargadr/windows-10"
       w10.vm.communicator = "winrm"
 
       # Admin user name and password
@@ -116,6 +115,41 @@ Vagrant.configure("2") do |config|
     end
 
     #
+    # Unmanaged Client
+    #
+
+    config.vm.define "byod" do |byod|
+      byod.vm.box = "gusztavvargadr/windows-10"
+      byod.vm.communicator = "winrm"
+
+      # Admin user name and password
+      byod.winrm.username = "vagrant"
+      byod.winrm.password = "vagrant"
+
+      byod.vm.guest = :windows
+      byod.windows.halt_timeout = 15
+
+      byod.vm.network :forwarded_port, guest: 3389, host: 3393, id: "rdp", auto_correct: true
+
+      byod.vm.network "private_network", ip: "192.168.123.5",
+        virtualbox__intnet: true
+
+      byod.vm.provider :virtualbox do |vb|
+        vb.customize ["modifyvm", :id, "--memory", 3072]
+        vb.customize ["modifyvm", :id, "--cpus", 2]
+      end
+
+      byod.vm.provision "powerconfig", type: "shell",
+        inline: "POWERCFG /SETACTIVE SCHEME_MIN"
+
+      byod.vm.provision "winrm", type: "shell",
+        name: "enable-winrm-for-ansible",
+        path: "scripts/enable-winrm-for-ansible.ps1"
+
+    end
+
+
+    #
     # Controller Machine for Ansible
     #
 
@@ -124,7 +158,7 @@ Vagrant.configure("2") do |config|
 
       ctrl.vm.network :forwarded_port, guest: 3389, host: 3392, id: "rdp"
 
-      ctrl.vm.network "private_network", virtualbox__intnet: true, ip: "192.168.123.5"
+      ctrl.vm.network "private_network", virtualbox__intnet: true, ip: "192.168.123.99"
 
       ctrl.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 2048]
@@ -149,39 +183,5 @@ Vagrant.configure("2") do |config|
 
     end
 
-    #
-    # Unmanaged Client
-    #
-
-    config.vm.define "byod" do |byod|
-      byod.vm.box = "gusztavvargadr/w10e"
-      byod.vm.box_version = "1811.0.0"
-      byod.vm.communicator = "winrm"
-
-      # Admin user name and password
-      byod.winrm.username = "vagrant"
-      byod.winrm.password = "vagrant"
-
-      byod.vm.guest = :windows
-      byod.windows.halt_timeout = 15
-
-      byod.vm.network :forwarded_port, guest: 3389, host: 3393, id: "rdp", auto_correct: true
-
-      byod.vm.network "private_network", ip: "192.168.123.99",
-        virtualbox__intnet: true
-
-      byod.vm.provider :virtualbox do |vb|
-        vb.customize ["modifyvm", :id, "--memory", 3072]
-        vb.customize ["modifyvm", :id, "--cpus", 2]
-      end
-
-      byod.vm.provision "powerconfig", type: "shell",
-        inline: "POWERCFG /SETACTIVE SCHEME_MIN"
-
-      byod.vm.provision "winrm", type: "shell",
-        name: "enable-winrm-for-ansible",
-        path: "scripts/enable-winrm-for-ansible.ps1"
-
-    end
 
 end

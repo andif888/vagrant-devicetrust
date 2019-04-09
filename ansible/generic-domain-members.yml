@@ -10,4 +10,5 @@
     - { role: ansible-role-win-disable-windows-updates }
     - { role: ansible-role-win-disable-nic-register-dns }
     - { role: ansible-role-win-language }
+    - { role: ansible-role-win-hostname }
     - { role: ansible-role-win-domain-member }

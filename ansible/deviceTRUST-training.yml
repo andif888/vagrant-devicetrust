@@ -9,8 +9,8 @@
 
     - name: Download deviceTRUST Training files
       win_get_url:
-        url: https://minio.prianto.com/devicetrust/2019-02-28_dT_Certified_Architect_Training.zip
-        dest: C:\Windows\Temp\2019-02-28_dT_Certified_Architect_Training.zip
+        url: https://minio.prianto.com/devicetrust/2019-04-05_dT_Certified_Architect_Training.zip
+        dest: C:\Windows\Temp\2019-04-05_dT_Certified_Architect_Training.zip
 
     - name: Create deviceTRUST Training Folder
       win_file:
@@ -19,7 +19,7 @@
 
     - name: Unzip deviceTRUST Training files
       win_unzip:
-        src: C:\Windows\Temp\2019-02-28_dT_Certified_Architect_Training.zip
+        src: C:\Windows\Temp\2019-04-05_dT_Certified_Architect_Training.zip
         dest: C:\dt_training
         delete_archive: yes
 
