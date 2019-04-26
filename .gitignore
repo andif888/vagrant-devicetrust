@@ -4,3 +4,4 @@ ansible/roles/
 ubuntu-xenial-16.04-cloudimg-console.log
 *.retry
 wallpapers
+FSLogix/

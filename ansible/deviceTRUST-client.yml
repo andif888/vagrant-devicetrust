@@ -20,6 +20,7 @@
       win_package:
         path: '{{ devicetrust_exctract_dir }}\{{  devicetrust_client_install_file }}'
         product_id: '{{ devicetrust_client_product_id }}'
+        arguments: /INSTALL /QUIET /NORESTART
         #creates_path: C:\Program Files\deviceTRUST\Client\Bin
         state: present
       register: deviceTRUST_Client_install
