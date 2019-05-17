@@ -1,0 +1,16 @@
+---
+- hosts: windows
+
+  vars_files:
+    - vars/generic.yml
+
+  roles:
+    - { role: ansible-role-win-disable-windows-updates }
+    - { role: ansible-role-win-language }
+    - { role: ansible-role-win-hostname }
+    - { role: ansible-role-win-regedit }
+
+  tasks: 
+    - name: Set timezone
+      win_timezone:
+        timezone: '{{ win_timezone }}'

@@ -1,0 +1,34 @@
+---
+- hosts: windows-dc
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+
+  tasks:
+
+    - name: Create folder install_share
+      win_file:
+        path: C:\install_share
+        state: directory
+
+    - name: Create share install_share
+      win_share:
+        name: install_share
+        description: install_share
+        path: C:\install_share
+        list: yes
+        full: "{{ win_everyone_username }}"
+
+    - name: Create install share desktop shortcut
+      win_shortcut:
+        src: "\\\\{{ inventory_hostname_short }}.{{ dns_domain_name }}\\install_share"
+        dest: C:\Users\Public\Desktop\install_share.lnk
+
+    - name: Download install files
+      win_get_url:
+        url: "{{ item.url }}"
+        dest: "C:\\install_share\\{{ item.name }}"
+      with_items:
+        - { url: "https://minio.prianto.com/devicetrust/2019-04-05_dT_Certified_Architect_Training.zip", name: 2019-04-05_dT_Certified_Architect_Training.zip}
+        - { url: "https://minio.prianto.com/fslogix/FSLogix_Apps_2.9.6999.2588.zip", name: FSLogix_Apps_2.9.6999.2588.zip}

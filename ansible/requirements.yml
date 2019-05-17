@@ -10,3 +10,4 @@
 - src: https://github.com/andif888/ansible-role-win-language
 - src: https://github.com/andif888/ansible-role-win-rdsh
 - src: https://github.com/andif888/ansible-role-win-search-service
+- src: https://github.com/andif888/ansible-role-win-regedit

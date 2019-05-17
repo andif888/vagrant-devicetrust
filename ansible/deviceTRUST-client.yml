@@ -1,5 +1,5 @@
 ---
-- hosts: windows-client
+- hosts: windows-clients
 
 
   vars_files:

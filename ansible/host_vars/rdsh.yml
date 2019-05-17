@@ -1,0 +1,7 @@
+---
+# Desktop Background: blue
+win_registry_items: 
+  - { path: "HKCU:\\Control Panel\\Colors", name: Background, data: 0 64 128, type: string, state: present }
+  - { path: "HKCU:\\Control Panel\\Desktop", name: WallPaper, data: "", type: string, state: present }
+  - { path: "HKU:\\.Default\\Control Panel\\Colors", name: Background, data: 0 64 128, type: string, state: present }
+  - { path: "HKU:\\.Default\\Control Panel\\Desktop", name: WallPaper, data: "", type: string, state: present }

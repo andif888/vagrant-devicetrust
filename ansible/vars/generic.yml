@@ -2,10 +2,14 @@
 nic_register_dns_disabled: Ethernet
 nic_change_interface_metric: 50
 win_user_language: de-DE
+win_timezone: W. Europe Standard Time
+win_everyone_username: Everyone
 dns_domain_name: dt.local
 domain_netbios_name: DT
 domain_admin_user: administrator@dt.local
 domain_admin_password: vagrant
+domain_user: user1
+domain_user_password: vagrant
 dns_client_configure: True
 dns_client_adapter: Ethernet 2
 dns_client_dns_server_ip: 192.168.123.2

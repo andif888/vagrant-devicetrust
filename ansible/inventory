@@ -1,20 +1,20 @@
 
 [windows]
-192.168.123.2
-192.168.123.3
-192.168.123.4
-192.168.123.5
+dc ansible_host=192.168.123.2 hostname=DC
+rdsh ansible_host=192.168.123.3 hostname=RDSH
+client ansible_host=192.168.123.4 hostname=W10
+byod ansible_host=192.168.123.5 hostname=BYOD
 
 [windows-members]
-192.168.123.3 hostname=RDSH
-192.168.123.4 hostname=W10
+rdsh
+client
 
 [windows-dc]
-192.168.123.2 hostname=DC
+dc
 
 [windows-rdsh]
-192.168.123.3
+rdsh
 
-[windows-client]
-192.168.123.4
-192.168.123.5
+[windows-clients]
+client
+byod

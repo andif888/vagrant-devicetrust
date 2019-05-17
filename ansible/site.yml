@@ -1,9 +1,12 @@
 ---
+- import_playbook: generic-windows.yml
 - import_playbook: generic-dc.yml
 - import_playbook: generic-domain-members.yml
 - import_playbook: generic-rdsh.yml
+- import_playbook: generic-dc-software-share.yml
+- import_playbook: generic-windows-clients.yml
 
-- import_playbook: deviceTRUST-training.yml
+# - import_playbook: deviceTRUST-training.yml
 - import_playbook: deviceTRUST-dc.yml
 - import_playbook: deviceTRUST-rdsh.yml
 - import_playbook: deviceTRUST-client.yml

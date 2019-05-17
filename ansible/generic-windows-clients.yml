@@ -1,0 +1,13 @@
+---
+- hosts: windows-clients
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+
+  tasks:
+
+    - name: Copy RDSH Desktop Icon
+      win_template:
+        src: templates/RDSH-user.rdp.j2
+        dest: C:\Users\Public\Desktop\RDSH-user.rdp

@@ -8,6 +8,17 @@
     - { role: ansible-role-win-rdsh }
 
   tasks:
+
+    - name: install Chocolatey            # https://github.com/ansible/ansible/issues/53860
+      win_chocolatey:
+        name: chocolatey
+        state: latest
+
+    - name: disable enhanced exit codes   # https://github.com/ansible/ansible/issues/53860
+      win_chocolatey_feature:
+        name: useEnhancedExitCodes
+        state: disabled
+
     - name: Install packages with chocolatey
       win_chocolatey:
         name: '{{ item }}'
